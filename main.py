@@ -1,17 +1,22 @@
-from fastapi import FastAPI
-from fastmcp import MCPServer, mcp_tool
+from fastmcp import FastMCP
 import httpx, os
 
-app = FastAPI()
-server = MCPServer(app, title="CCFM Naver DataLab MCP")
+mcp = FastMCP("Naver DataLab")
 
 NAVER_ID = os.getenv("NAVER_CLIENT_ID")
 NAVER_SECRET = os.getenv("NAVER_CLIENT_SECRET")
-headers = {"X-Naver-Client-Id": NAVER_ID, "X-Naver-Client-Secret": NAVER_SECRET}
-base = "https://openapi.naver.com"
+HEADERS = {"X-Naver-Client-Id": NAVER_ID, "X-Naver-Client-Secret": NAVER_SECRET}
+BASE = "https://openapi.naver.com"
 
-@mcp_tool(namespace="datalab", name="search_trend")
-async def search_trend(body: dict):
-    async with httpx.AsyncClient() as s:
-        r = await s.post(f"{base}/v1/datalab/search", json=body, headers=headers, timeout=30)
+@mcp.tool()
+async def search_trend(body: dict) -> dict:
+    """
+    Naver DataLab 검색어 트렌드 프록시
+    """
+    async with httpx.AsyncClient() as client:
+        r = await client.post(f"{BASE}/v1/datalab/search",
+                              json=body, headers=HEADERS, timeout=30)
     return r.json()
+
+if __name__ == "__main__":
+    mcp.run(transport="sse", host="0.0.0.0", port=80, path="/mcp")
