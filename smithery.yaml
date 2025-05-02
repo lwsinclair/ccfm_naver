@@ -4,7 +4,8 @@ builder:
     - NAVER_CLIENT_ID
     - NAVER_CLIENT_SECRET
 
-startCommand: ["python", "main.py"]
+startCommand:
+  args: ["python", "main.py"]   # ← 객체(맵) 안에 배열을 넣어야 합니다
 
 transport:
   type: http
