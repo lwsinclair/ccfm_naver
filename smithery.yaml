@@ -1,0 +1,13 @@
+builder:
+  port: 80
+  env:
+    - NAVER_CLIENT_ID
+    - NAVER_CLIENT_SECRET
+
+transport:
+  type: http          # ← 반드시 http
+  url: http://localhost:80/mcp
+
+runtime:
+  memory: 512Mi
+  cpu: 0.25
