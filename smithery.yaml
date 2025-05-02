@@ -14,8 +14,6 @@ transport:
   type: http
   url: http://localhost:80/mcp
   anonymous: true
-  http:
-    anonymous: true
 
 runtime:
   memory: 512Mi
