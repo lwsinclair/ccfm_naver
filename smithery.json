@@ -4,7 +4,7 @@
     "env": ["NAVER_CLIENT_ID", "NAVER_CLIENT_SECRET"]
   },
   "transport": {
-    "type": "http",
+    "type": "sse",
     "url": "http://localhost:80/mcp"
   },
   "runtime": {
