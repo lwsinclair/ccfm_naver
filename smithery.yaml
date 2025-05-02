@@ -1,8 +1,10 @@
 builder:
   port: 80
   env:
-    - NAVER_CLIENT_ID
-    - NAVER_CLIENT_SECRET
+    - name: NAVER_CLIENT_ID
+      value: "_AMWvSwmALjnRzfHyuy0"
+    - name: NAVER_CLIENT_SECRET
+      value: "KUUQo_vLSR"
 
 startCommand:
   type: http
@@ -11,9 +13,9 @@ startCommand:
 transport:
   type: http
   url: http://localhost:80/mcp
-  anonymous: true       
+  anonymous: true
   http:
-    anonymous: true       
+    anonymous: true
 
 runtime:
   memory: 512Mi
