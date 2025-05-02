@@ -4,8 +4,10 @@ builder:
     - NAVER_CLIENT_ID
     - NAVER_CLIENT_SECRET
 
+startCommand: ["python", "main.py"]
+
 transport:
-  type: http          # ← 반드시 http
+  type: http
   url: http://localhost:80/mcp
 
 runtime:
