@@ -1,7 +1,8 @@
+from fastmcp import FastMCP
+import httpx
+import os
 from pydantic import BaseModel
 from typing import List, Dict
-from fastmcp import FastMCP
-import httpx, os
 
 class SearchTrendRequest(BaseModel):
     startDate: str
@@ -22,16 +23,16 @@ def get_headers():
     return {"X-Naver-Client-Id": nid, "X-Naver-Client-Secret": nsec}
 
 @mcp.tool()
-async def search_trend(body: SearchTrendRequest):
+async def search_trend(body: SearchTrendRequest) -> dict:
     headers = get_headers()
     async with httpx.AsyncClient() as c:
-        r = await c.post(
+        response = await c.post(
             "https://openapi.naver.com/v1/datalab/search",
             json=body.dict(),
             headers=headers,
             timeout=30,
         )
-    return r.json()
+    return response.json()
 
 app = mcp.asgi(path="/mcp")
 
