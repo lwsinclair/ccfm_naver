@@ -2,16 +2,25 @@ from fastmcp import FastMCP
 import httpx
 import os
 from pydantic import BaseModel
-from typing import List, Dict
+from typing import List, Any
+
+# keywordGroups의 구조를 명확히 정의
+class KeywordGroup(BaseModel):
+    groupName: str
+    keywords: List[str]
 
 class SearchTrendRequest(BaseModel):
     startDate: str
     endDate: str
     timeUnit: str
-    keywordGroups: List[Dict[str, str]]
+    keywordGroups: List[KeywordGroup]
     device: str = "pc"
     gender: str = "all"
     ages: List[str] = []
+
+# 반환값도 Pydantic 모델로 감싸기
+class SearchTrendResponse(BaseModel):
+    results: Any
 
 mcp = FastMCP("Naver DataLab")
 
@@ -23,7 +32,7 @@ def get_headers():
     return {"X-Naver-Client-Id": nid, "X-Naver-Client-Secret": nsec}
 
 @mcp.tool()
-async def search_trend(body: SearchTrendRequest) -> dict:
+async def search_trend(body: SearchTrendRequest) -> SearchTrendResponse:
     headers = get_headers()
     async with httpx.AsyncClient() as c:
         response = await c.post(
@@ -32,7 +41,7 @@ async def search_trend(body: SearchTrendRequest) -> dict:
             headers=headers,
             timeout=30,
         )
-    return response.json()
+    return SearchTrendResponse(results=response.json())
 
 app = mcp.asgi(path="/mcp")
 
