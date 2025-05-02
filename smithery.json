@@ -1,8 +1,14 @@
-builder:
-  port: 80
-  env:
-    - NAVER_CLIENT_ID
-    - NAVER_CLIENT_SECRET
-runtime:
-  memory: 512Mi
-  cpu: 0.25
+{
+  "builder": {
+    "port": 80,
+    "env": ["NAVER_CLIENT_ID", "NAVER_CLIENT_SECRET"]
+  },
+  "transport": {
+    "type": "http",
+    "url": "http://localhost:80/mcp"
+  },
+  "runtime": {
+    "memory": "512Mi",
+    "cpu": 0.25
+  }
+}
